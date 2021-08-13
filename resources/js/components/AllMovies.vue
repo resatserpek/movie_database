@@ -4,13 +4,15 @@
             <h1 class="display-4">Welcome to the Movie Database!</h1>
             <p class="lead">A special movie database where you can create, edit or delete movies in the database</p>
             <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <p>This means you can add, edit delete and view any movie you like!</p>
             <p class="lead">
               <a class="btn btn-primary btn-lg" href="/create" role="button">Create New</a>
             </p>
         </div>
         <div class="container-fluid content-row">
-
+            <div v-if="this.error" class="alert alert-danger" role="alert">
+              Error! Please try again later
+            </div>
 
             <div class="row "> 
                 <h6 v-if="movies.length == 0" class="text-center">No movies in database, please add movies</h6>
@@ -40,7 +42,8 @@
     export default {
         data() {
             return {
-                movies: []
+                movies: [],
+                error: false
             }
         },
         created() {
@@ -58,7 +61,8 @@
                         
                         let i = this.movies.map(data => data.id).indexOf(id);
                         this.movies.splice(i, 1)
-                    });
+                    })
+                    .catch(err => this.error = true);
             }
         }
     }

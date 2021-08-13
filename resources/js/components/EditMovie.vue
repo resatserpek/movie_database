@@ -4,6 +4,9 @@
             <h5 class="display-4">Edit {{this.movie.title}}</h5>
             
         </div>
+        <div v-if="this.error" class="alert alert-danger" role="alert">
+          Error! Please try again later
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <form @submit.prevent="updateMovie">
@@ -34,7 +37,8 @@
     export default {
         data() {
             return {
-                movie: {}
+                movie: {},
+                error: false
             }
         },
         created() {
@@ -42,7 +46,7 @@
                 .get(`http://localhost:8000/api/movies/${this.$route.params.id}`)
                 .then((res) => {
                     this.movie = res.data;
-                });
+                }).catch( err => this.$router.push({ name: 'home' }));
         },
         methods: {
             updateMovie() {
@@ -50,7 +54,7 @@
                     .put(`http://localhost:8000/api/movies/${this.$route.params.id}`, this.movie)
                     .then((res) => {
                         this.$router.push({ name: 'home' });
-                    });
+                    }).catch(err => this.error = true);
             }
         }
     }

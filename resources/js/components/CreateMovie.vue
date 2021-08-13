@@ -4,6 +4,9 @@
             <h6 class="display-4">Create Movie </h6>
             
         </div>
+        <div v-if="this.error" class="alert alert-danger" role="alert">
+          Error! Please try again later
+        </div>
         <form @submit.prevent="addMovie">
             <div class="form-group">
                 <label>Title</label>
@@ -33,7 +36,8 @@
             return {
                 movie: {
                     image: 'https://lorempixel.com/80/80/people/'
-                }
+                },
+                error:false
             }
         },
         methods: {
@@ -43,7 +47,7 @@
                     .then(response => (
                         this.$router.push({ name: 'home' })
                     ))
-                    .catch(err => console.log(err))
+                    .catch(err => this.error = true)
                     .finally(() => this.loading = false)
             }
         }
