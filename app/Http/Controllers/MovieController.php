@@ -32,7 +32,7 @@ class MovieController extends Controller
     {
         $movie->update($request->all());
 
-        return response()->json($article, 200);
+        return response()->json($movie, 200);
     }
 
     public function delete(Movie $movie)
